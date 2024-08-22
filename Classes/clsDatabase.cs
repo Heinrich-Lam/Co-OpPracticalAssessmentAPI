@@ -9,22 +9,22 @@ namespace PracticalAssessmentAPI.Classes
 {
     public class clsDatabase
     {
-        //private string connectionString = "Data Source=.;Persist Security Info=True" +
-        //                                ";User ID=sa" +
-        //                                ";Password=bull$dog" +
-        //                                ";Initial Catalog=PracticalAssessment";
-
-        private string connectionString = "Data Source=DESKTOP-5PM27UM;Persist Security Info=True" +
-                                        ";User ID=DESKTOP-5PM27UM\\heinr" +
-                                        ";Password=804422" +
+        private string connectionString = "Data Source=.;Persist Security Info=True" +
+                                        ";User ID=sa" +
+                                        ";Password=bull$dog" +
                                         ";Initial Catalog=PracticalAssessment";
+
+        //private string connectionString = "Data Source=DESKTOP-5PM27UM;Persist Security Info=True" +
+        //                                ";User ID=heinr" +
+        //                                ";Password=804422" +
+        //                                ";Initial Catalog=PracticalAssessment";
 
         private const string errorSplit = "||||";
 
-        #region "Security Calls."
-        public DataTable readSecurity(string name, string password, string access)
+
+        public DataTable readSecurity(string name, string password)
         {
-            DataTable dt = null;
+            DataTable dt = new DataTable();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -33,32 +33,30 @@ namespace PracticalAssessmentAPI.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        // Add parameters if they are not empty
                         if (!string.IsNullOrEmpty(name))
                             cmd.Parameters.AddWithValue("@Name", name);
                         if (!string.IsNullOrEmpty(password))
                             cmd.Parameters.AddWithValue("@Password", password);
-                        if (!string.IsNullOrEmpty(access))
-                            cmd.Parameters.AddWithValue("@Access", access);
 
                         conn.Open();
 
-                        // Execute the stored procedure and get the result set
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        da.Fill(dt);
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                // Log the exception details for further investigation
+                Console.WriteLine($"Error executing USP_SECURITY_READ: {ex.InnerException?.Message}");
+                throw;
             }
-
             return dt;
         }
-        #endregion
 
-        public DataTable readContact(string name)
+        public DataTable readContact(int entryid)
         {
             DataTable dt = new DataTable();
             dt.TableName = "CONTACTS";
@@ -71,8 +69,10 @@ namespace PracticalAssessmentAPI.Classes
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters if they are not empty
-                        if (!string.IsNullOrEmpty(name))
-                            cmd.Parameters.AddWithValue("@Name", name);
+                        if (entryid != 0)
+                            cmd.Parameters.AddWithValue("@EntryID", entryid);
+                        //if (!string.IsNullOrEmpty(name))
+                        //    cmd.Parameters.AddWithValue("@Name", name);
                         //if (!string.IsNullOrEmpty(email))
                         //    cmd.Parameters.AddWithValue("@Email", email);
                         //if (!string.IsNullOrEmpty(phone))

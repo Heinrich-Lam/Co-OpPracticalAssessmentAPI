@@ -17,7 +17,7 @@ namespace PracticalAssessmentAPI.Controllers
         [HttpPost]
         public DataTable readSecurity(ContactParameters param)
         {
-            return db.readSecurity(param.Name, param.Password, param.Access);
+            return db.readSecurity(param.Name, param.Password);
         }
         #endregion
 
@@ -25,7 +25,7 @@ namespace PracticalAssessmentAPI.Controllers
         [HttpPost]
         public DataTable readContact(ContactParameters param)
         {
-            return db.readContact(param.Name);
+            return db.readContact(param.EntryID);
         }
 
         [Route("Insert/insertContact")]
