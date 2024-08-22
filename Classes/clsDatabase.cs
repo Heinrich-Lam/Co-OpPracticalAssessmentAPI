@@ -22,7 +22,7 @@ namespace PracticalAssessmentAPI.Classes
         private const string errorSplit = "||||";
 
 
-        public DataTable readSecurity(string name, string password)
+        public DataTable readSecurity(string Name, string Password)
         {
             DataTable dt = new DataTable();
             try
@@ -33,10 +33,10 @@ namespace PracticalAssessmentAPI.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
-                        if (!string.IsNullOrEmpty(name))
-                            cmd.Parameters.AddWithValue("@Name", name);
-                        if (!string.IsNullOrEmpty(password))
-                            cmd.Parameters.AddWithValue("@Password", password);
+                        if (!string.IsNullOrEmpty(Name))
+                            cmd.Parameters.AddWithValue("@Name", Name);
+                        if (!string.IsNullOrEmpty(Password))
+                            cmd.Parameters.AddWithValue("@Password", Password);
 
                         conn.Open();
 
@@ -56,7 +56,9 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
         }
 
-        public DataTable readContact(int entryid)
+
+
+        public DataTable readContact()
         {
             DataTable dt = new DataTable();
             dt.TableName = "CONTACTS";
@@ -69,8 +71,8 @@ namespace PracticalAssessmentAPI.Classes
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters if they are not empty
-                        if (entryid != 0)
-                            cmd.Parameters.AddWithValue("@EntryID", entryid);
+                        //if (entryid != 0)
+                        //    cmd.Parameters.AddWithValue("@EntryID", entryid);
                         //if (!string.IsNullOrEmpty(name))
                         //    cmd.Parameters.AddWithValue("@Name", name);
                         //if (!string.IsNullOrEmpty(email))

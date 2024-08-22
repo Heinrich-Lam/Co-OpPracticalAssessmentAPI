@@ -25,7 +25,7 @@ namespace PracticalAssessmentAPI.Controllers
         [HttpPost]
         public DataTable readContact(ContactParameters param)
         {
-            return db.readContact(param.EntryID);
+            return db.readContact();
         }
 
         [Route("Insert/insertContact")]
