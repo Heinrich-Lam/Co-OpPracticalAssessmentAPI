@@ -58,7 +58,7 @@ namespace PracticalAssessmentAPI.Classes
 
 
 
-        public DataTable readContact()
+        public DataTable readContact(int History)
         {
             DataTable dt = new DataTable();
             dt.TableName = "CONTACTS";
@@ -71,16 +71,40 @@ namespace PracticalAssessmentAPI.Classes
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         // Add parameters if they are not empty
-                        //if (entryid != 0)
-                        //    cmd.Parameters.AddWithValue("@EntryID", entryid);
-                        //if (!string.IsNullOrEmpty(name))
-                        //    cmd.Parameters.AddWithValue("@Name", name);
-                        //if (!string.IsNullOrEmpty(email))
-                        //    cmd.Parameters.AddWithValue("@Email", email);
-                        //if (!string.IsNullOrEmpty(phone))
-                        //    cmd.Parameters.AddWithValue("@Phone", phone);
-                        //if (!string.IsNullOrEmpty(address))
-                        //    cmd.Parameters.AddWithValue("@Address", address);
+                        if (History == 0)
+                            cmd.Parameters.AddWithValue("@History", History);
+
+                        conn.Open();
+
+                        // Execute the stored procedure and get the result set
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        da.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return dt;
+        }
+
+        public DataTable readContactInfo(int EntryId)
+        {
+            DataTable dt = new DataTable();
+            dt.TableName = "CONTACTS";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("USP_CONTACT_INFO_READ", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        // Add parameters if they are not empty
+                        if (EntryId != 0)
+                            cmd.Parameters.AddWithValue("@EntryID", EntryId);
 
                         conn.Open();
 
@@ -99,7 +123,7 @@ namespace PracticalAssessmentAPI.Classes
         }
 
         //Insert Contact.
-        public DataTable insertContact(string Name, string Email, string Phone, string Address)
+        public DataTable insertContact(string Name, string Email, string Phone, string Address, int History)
         {
 
             ArrayList spl = new ArrayList();
@@ -118,6 +142,7 @@ namespace PracticalAssessmentAPI.Classes
                         cmd.Parameters.AddWithValue("@Email", Email);
                         cmd.Parameters.AddWithValue("@Phone", Phone);
                         cmd.Parameters.AddWithValue("@Address", Address);
+                        cmd.Parameters.AddWithValue("@History", History);
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -135,7 +160,7 @@ namespace PracticalAssessmentAPI.Classes
 
         }
 
-        public DataTable updateContact(string Name, string Email, string Phone, string Address)
+        public DataTable updateContact(int EntryID, string Name, string Email, string Phone, string Address)
         {
 
             ArrayList spl = new ArrayList();
@@ -150,6 +175,7 @@ namespace PracticalAssessmentAPI.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
 
+                        cmd.Parameters.AddWithValue("@Entry_ID", EntryID);
                         cmd.Parameters.AddWithValue("@Name", Name);
                         cmd.Parameters.AddWithValue("@Email", Email);
                         cmd.Parameters.AddWithValue("@Phone", Phone);

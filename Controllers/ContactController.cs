@@ -25,21 +25,28 @@ namespace PracticalAssessmentAPI.Controllers
         [HttpPost]
         public DataTable readContact(ContactParameters param)
         {
-            return db.readContact();
+            return db.readContact(param.History);
+        }
+
+        [Route("Read/readContactInfo")]
+        [HttpPost]
+        public DataTable readContactInfo(ContactParameters param)
+        {
+            return db.readContactInfo(param.EntryID);
         }
 
         [Route("Insert/insertContact")]
         [HttpPost]
         public DataTable insertContact(ContactParameters param)
         {
-            return db.insertContact(param.Name, param.Email, param.Phone, param.Address);
+            return db.insertContact(param.Name, param.Email, param.Phone, param.Address, param.History);
         }
 
         [Route("Update/updateContact")]
         [HttpPost]
         public DataTable updateContact(ContactParameters param)
         {
-            return db.updateContact(param.Name, param.Email, param.Phone, param.Address);
+            return db.updateContact(param.EntryID, param.Name, param.Email, param.Phone, param.Address);
         }
 
         [Route("Delete/deleteContact")]
