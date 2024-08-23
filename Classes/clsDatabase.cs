@@ -14,14 +14,7 @@ namespace PracticalAssessmentAPI.Classes
                                         ";Password=bull$dog" +
                                         ";Initial Catalog=PracticalAssessment";
 
-        //private string connectionString = "Data Source=DESKTOP-5PM27UM;Persist Security Info=True" +
-        //                                ";User ID=heinr" +
-        //                                ";Password=804422" +
-        //                                ";Initial Catalog=PracticalAssessment";
-
-        private const string errorSplit = "||||";
-
-
+        #region "Security."
         public DataTable readSecurity(string Name, string Password)
         {
             DataTable dt = new DataTable();
@@ -89,7 +82,10 @@ namespace PracticalAssessmentAPI.Classes
             }
             return dt;
         }
+        #endregion
 
+        #region "Contacts Procedures."
+        //Read Contacts to Populate List.
         public DataTable readContacts(int History)
         {
             DataTable dt = new DataTable();
@@ -122,6 +118,7 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
         }
 
+        //Read Contact to populate Edit, or Delete Fields.
         public DataTable readContactInfo(int EntryId)
         {
             DataTable dt = new DataTable();
@@ -192,6 +189,7 @@ namespace PracticalAssessmentAPI.Classes
 
         }
 
+        //Update Contact
         public DataTable updateContact(int EntryID, string Name, string Email, string Phone, string Address)
         {
 
@@ -229,6 +227,7 @@ namespace PracticalAssessmentAPI.Classes
 
         }
 
+        //Delete Contact (This Marks as history.)
         public DataTable deleteContact(int EntryId)
         {
 
@@ -261,7 +260,10 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
 
         }
+        #endregion
 
+        #region "User Procedures."
+        //read User to populate list.
         public DataTable readUser(int History)
         {
             DataTable dt = new DataTable();
@@ -294,6 +296,7 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
         }
 
+        //Read User to populate Edit, or Delete Fields.
         public DataTable readUserInfo(int EntryId)
         {
             DataTable dt = new DataTable();
@@ -326,7 +329,7 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
         }
 
-        //Insert Contact.
+        //Insert User.
         public DataTable insertUser(string Name, string Surname, string Email, string Password, int History)
         {
 
@@ -363,7 +366,8 @@ namespace PracticalAssessmentAPI.Classes
             return dt;
 
         }
-
+        
+        //Update User.
         public DataTable updateUser(int EntryID, string Name, string Surname, string Email, string Password)
         {
 
@@ -401,6 +405,7 @@ namespace PracticalAssessmentAPI.Classes
 
         }
 
+        //Delete User. (This removes the User from the Database.)
         public DataTable deleteUser(int EntryId)
         {
 
@@ -429,9 +434,9 @@ namespace PracticalAssessmentAPI.Classes
             {
                 throw new Exception("An error occurred: " + ex.Message);
             }
-
             return dt;
 
         }
+        #endregion
     }
 }
